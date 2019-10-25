@@ -51,4 +51,14 @@ router.post('/register', async (req, res, next) => {
     }
 })
 
+router.post('/logout', async (req, res, next) => {
+    try {
+        req.session.destroy(() => {
+            res.redirect('/users/login')
+        })
+    } catch (err) {
+        res.json(err)
+    }
+})
+
 module.exports = router
