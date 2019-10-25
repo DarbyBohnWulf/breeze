@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/Grygoree/breeze/issues"
   },
-  "homepage": "https://github.com/Grygoree/breeze#readme"
+  "homepage": "https://github.com/Grygoree/breeze#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
