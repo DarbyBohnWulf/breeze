@@ -1,0 +1,28 @@
+{
+  "name": "breeze",
+  "version": "1.0.0",
+  "description": "A web app to help you manage your closet and outfits.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grygoree/breeze.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongo",
+    "mongodb",
+    "MEN-stack",
+    "clothes",
+    "clothing"
+  ],
+  "author": "Gregory Leung and Mark Ritchie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grygoree/breeze/issues"
+  },
+  "homepage": "https://github.com/Grygoree/breeze#readme"
+}
