@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Grygoree/breeze.git"
+    "url": "git+https://github.com/DarbyBohnWulf/breeze.git"
   },
   "keywords": [
     "node",
@@ -22,9 +22,9 @@
   "author": "Gregory Leung and Mark Ritchie",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Grygoree/breeze/issues"
+    "url": "https://github.com/DarbyBohnWulf/breeze/issues"
   },
-  "homepage": "https://github.com/Grygoree/breeze#readme",
+  "homepage": "https://github.com/DarbyBohnWulf/breeze#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "ejs": "^2.7.1",
