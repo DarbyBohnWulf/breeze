@@ -21,6 +21,12 @@ app.use('/users', userController)
 const closetController = require('./controllers/closetController.js')
 app.use('/closet', closetController)
 
+//Error handler
+app.use((err, req, res, next) => {
+    console.log(err)
+    res.json(err)
+})
+
 app.listen(PORT, () => {
     console.log(`Started server on port ${PORT}`)
 })

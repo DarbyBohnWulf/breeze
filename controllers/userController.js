@@ -27,7 +27,7 @@ router.post('/login', async (req, res, next) => {
             }
         }
     } catch (err) {
-        res.json(err)
+        next(err)
     }
 })
 
@@ -47,7 +47,7 @@ router.post('/register', async (req, res, next) => {
             res.send('created securely')
         }
     } catch (err) {
-        res.json(err)
+        next(err)
     }
 })
 
@@ -57,7 +57,7 @@ router.post('/logout', async (req, res, next) => {
             res.redirect('/users/login')
         })
     } catch (err) {
-        res.json(err)
+        next(err)
     }
 })
 
