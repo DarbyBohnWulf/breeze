@@ -18,6 +18,9 @@ app.use(express.urlencoded({ extended: false }))
 const userController = require('./controllers/userController.js')
 app.use('/users', userController)
 
+const closetController = require('./controllers/closetController.js')
+app.use('/closet', closetController)
+
 app.listen(PORT, () => {
     console.log(`Started server on port ${PORT}`)
 })

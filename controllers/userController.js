@@ -21,7 +21,7 @@ router.post('/login', async (req, res, next) => {
                 req.session.loggedIn = true
                 req.session.username = foundUser.username
                 req.session.userId = foundUser._id
-                res.send('you have no clothes' + req.session.username)
+                res.redirect('/closet')
             } else {
                 res.redirect('/users/login')
             }
