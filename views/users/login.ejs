@@ -1,9 +1,9 @@
 <%- include('../header.ejs') %>
     <h1>Log in</h1>
     <form method="POST">
-        <input name="username">
-        <input name="password">
-        <button formaction="/users/login">Login</button>
-        <button formaction="/users/register">Register</button>
+        <input name="username" />
+        <input name="password" type="password" />
+        <button formaction="/users/login" class="btn btn-primary">Login</button>
+        <button formaction="/users/register" class="btn btn-secondary">Register</button>
     </form>
 <%- include('../footer.ejs') %>
