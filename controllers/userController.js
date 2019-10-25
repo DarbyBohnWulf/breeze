@@ -8,8 +8,24 @@ router.get('/login', (req, res) => {
     res.render('users/login.ejs')
 })
 
-router.post('/login', (req, res, next) => {
-    res.redirect('/users/login')
+router.post('/login', async (req, res, next) => {
+    const username = req.body.username
+    const password = req.body.password
+
+    try {
+        const foundUser = await User.findOne({username: username})
+        if (!foundUser) {
+            res.redirect('/users/login')
+        } else {
+            if(bcrypt.compareSync(password, foundUser.password)) {
+                res.send('you have no clothes')
+            } else {
+                res.redirect('/users/login')
+            }
+        }
+    } catch (err) {
+        res.json(err)
+    }
 })
 
 router.post('/register', async (req, res, next) => {
