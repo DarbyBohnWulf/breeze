@@ -7,6 +7,8 @@ const PORT = 3000
 //Connect to MongoDB
 require('./db/db.js')
 
+app.use(express.static('public'))
+
 app.use(session({
     secret: 'replace this wiejfo;awijf;oaiwj',
     resave: true,
