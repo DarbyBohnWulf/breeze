@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const dummyClothes = [
+const dummyGarments = [
   {
     name: 'greyish button-up',
     role: 'top',
@@ -59,18 +59,18 @@ const dummyClothes = [
   }
 ]
 
-// article index
-router.get('/clothes', async (req,res, next) => {
+// garment index
+router.get('/garments', async (req,res, next) => {
   try {
     console.log("hittin' that get");
-    res.json(dummyClothes)
+    res.json(dummyGarments)
   } catch (err) {
     next(err)
   }
 })
 
-// article create
-router.post('/clothes', async (req,res, next) => {
+// garment create
+router.post('/garments', async (req,res, next) => {
   try {
     console.log("hittin that post")
     console.log(req.body)
@@ -79,8 +79,8 @@ router.post('/clothes', async (req,res, next) => {
   }
 })
 
-// article update
-router.put('/clothes/:id', async (req,res, next) => {
+// garment update
+router.put('/garments/:id', async (req,res, next) => {
   try {
     console.log("hittin' that update");
     console.log(req.body);
@@ -89,8 +89,8 @@ router.put('/clothes/:id', async (req,res, next) => {
   }
 })
 
-// article delete
-router.delete('/clothes/:id', async (req,res, next) => {
+// garment delete
+router.delete('/garments/:id', async (req,res, next) => {
   try {
     console.log("hittin' that ol' delete route");
     console.log(req.body);
