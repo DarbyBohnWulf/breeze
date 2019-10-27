@@ -1,2 +1,9 @@
+# node modules should not be shared between systems
+# and are not relevant to project code
 node_modules
+
+# backup files from vim
 *.swp
+
+# dotenv files often contain sensitive information
+*.env
