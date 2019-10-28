@@ -1,69 +1,15 @@
 const express = require('express');
 
-const router = express.Router();
+const breeze = require('../lib/breeze')
+const getDummyGarments = breeze.buildOutfit
 
-const dummyGarments = [
-  {
-    name: 'greyish button-up',
-    role: 'top',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'green tank',
-    role: 'top',
-    layer: 'inner',
-    precip: 'both',
-  },
-  {
-    name: 'orange sweater',
-    role: 'top',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'grey boxers',
-    role: 'bottom',
-    layer: 'inner',
-    precip: 'both',
-  },
-  {
-    name: 'red shorts',
-    role: 'bottom',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'purple jeans',
-    role: 'bottom',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'black ballcap',
-    role: 'head',
-    layer: 'outer',
-    precip: 'dry',
-  },
-  {
-    name: 'orange scarf',
-    role: 'head',
-    layer: 'inner',
-    precip: 'both',
-  },
-  {
-    name: 'brown leather brogues',
-    role: 'footwear',
-    layer: 'outer',
-    precip: 'dry'
-  }
-]
+const router = express.Router();
 
 // garment index
 router.get('/garments', async (req,res, next) => {
   try {
     console.log("hittin' that get");
-    res.json(dummyGarments)
+    res.json(await getDummyGarments())
   } catch (err) {
     next(err)
   }
