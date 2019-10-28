@@ -1,6 +1,20 @@
 <%- include('../header.ejs') %>
+    <nav>Nav goes here</nav>
     <h1>You're Closet</h1>
     <form>
         <button formaction="/users/logout" formmethod="POST">Log Out</button>
     </form>
+
+    <!-- multiple categories  go here -->
+    <div id="head" class="scroller">
+        <div class="card garment">
+            <img class="card-img-top" src="https://picsum.photos/id/461/200/200" alt="Card image cap" />
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This should make the bulk of the content</p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+         </div>
+    </div>
+    <div id="tops" class="scroller"></div>
 <%- include('../footer.ejs') %>
