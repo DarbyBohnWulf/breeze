@@ -1,7 +1,7 @@
 const express = require('express');
 
 const breeze = require('../lib/breeze')
-const getDummyGarments = breeze.buildOutfit
+const getDummyGarments = breeze.getDummyGarments
 
 const router = express.Router();
 
