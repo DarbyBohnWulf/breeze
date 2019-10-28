@@ -36,7 +36,7 @@ const closetUiController = {
         const $card = $('<div>').addClass('card garment')
 
         const $imageCap = $('<img>').addClass('card-img-top')
-        $imageCap.attr('src', 'https://picsum.photos/id/461/200/200')
+        $imageCap.attr('src', 'https://picsum.photos/200/200')
         $imageCap.attr('alt', 'Card image cap')
         $card.append($imageCap)
 

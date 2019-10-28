@@ -63,6 +63,7 @@ const dummyClothes = [
 router.get('/clothes', async (req,res, next) => {
   try {
     console.log("hittin' that get");
+    console.log(req.session)
     res.json(dummyClothes)
   } catch (err) {
     next(err)

@@ -4,4 +4,10 @@ body {
 
 .garment {
     width: 200px;
+    min-width: 200px;
+}
+
+.scroller {
+    overflow-x: auto;
+    white-space: nowrap;
 }
