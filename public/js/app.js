@@ -58,7 +58,7 @@ $(document).ready(async () => {
     try {
         const userClothes = await apiInterface.getCloset()
         closetUiController.clothes = userClothes
-        //update UI here
+        closetUiController.populateCategory('tops')
     } catch (err) {
         console.log(err)
     }
