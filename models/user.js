@@ -9,6 +9,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    closet: [{
+        type: mongoose.Schema.Types.ObjectId,
+        refs: 'Garment'
+    }],
+    outfits: [{
+        type: mongoose.Schema.Types.ObjectId,
+        refs: 'Outfit'
+    }],
+    ootd: [{
+        type: mongoose.Schema.Types.ObjectId,
+        refs: 'Garment'
+    }],
 })
 
 const User = mongoose.model('User', userSchema)
