@@ -1,77 +1,27 @@
 const express = require('express');
 
+const breeze = require('../lib/breeze')
+const getDummyGarments = breeze.buildOutfit
+
 const router = express.Router();
 
-const dummyClothes = [
-  {
-    name: 'greyish button-up',
-    role: 'top',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'green tank',
-    role: 'top',
-    layer: 'inner',
-    precip: 'both',
-  },
-  {
-    name: 'orange sweater',
-    role: 'top',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'grey boxers',
-    role: 'bottom',
-    layer: 'inner',
-    precip: 'both',
-  },
-  {
-    name: 'red shorts',
-    role: 'bottom',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'purple jeans',
-    role: 'bottom',
-    layer: 'mid',
-    precip: 'both',
-  },
-  {
-    name: 'black ballcap',
-    role: 'head',
-    layer: 'outer',
-    precip: 'dry',
-  },
-  {
-    name: 'orange scarf',
-    role: 'head',
-    layer: 'inner',
-    precip: 'both',
-  },
-  {
-    name: 'brown leather brogues',
-    role: 'footwear',
-    layer: 'outer',
-    precip: 'dry'
-  }
-]
-
-// article index
-router.get('/clothes', async (req,res, next) => {
+// garment index
+router.get('/garments', async (req,res, next) => {
   try {
     console.log("hittin' that get");
+<<<<<<< HEAD
     console.log(req.session)
     res.json(dummyClothes)
+=======
+    res.json(await getDummyGarments())
+>>>>>>> ff460929e166c24f295a62d2704d0c4a98734e22
   } catch (err) {
     next(err)
   }
 })
 
-// article create
-router.post('/clothes', async (req,res, next) => {
+// garment create
+router.post('/garments', async (req,res, next) => {
   try {
     console.log("hittin that post")
     console.log(req.body)
@@ -80,8 +30,8 @@ router.post('/clothes', async (req,res, next) => {
   }
 })
 
-// article update
-router.put('/clothes/:id', async (req,res, next) => {
+// garment update
+router.put('/garments/:id', async (req,res, next) => {
   try {
     console.log("hittin' that update");
     console.log(req.body);
@@ -90,8 +40,8 @@ router.put('/clothes/:id', async (req,res, next) => {
   }
 })
 
-// article delete
-router.delete('/clothes/:id', async (req,res, next) => {
+// garment delete
+router.delete('/garments/:id', async (req,res, next) => {
   try {
     console.log("hittin' that ol' delete route");
     console.log(req.body);
