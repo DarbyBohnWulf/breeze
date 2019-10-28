@@ -6,7 +6,7 @@ const apiInterface = {
     //User should be logged in, or else this may break
     getCloset: async function() {
         try {
-            const res = await $.getJSON(`${this.URL + 'clothes'}`)
+            const res = await $.getJSON(`${this.URL + 'garments'}`)
             return res
         } catch (err) {
             return([])
