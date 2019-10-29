@@ -41,7 +41,8 @@ router.put('/garments/:id', async (req,res, next) => {
 router.delete('/garments/:id', async (req,res, next) => {
   try {
     console.log("hittin' that ol' delete route");
-    console.log(req.body);
+    console.log(req.params.id);
+    res.json({deleted: req.params.id})
   } catch (err) {
     next(err)
   }

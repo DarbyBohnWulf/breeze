@@ -33,7 +33,14 @@ const apiInterface = {
         }
     },
 
-    deleteGarment: async function(){},
+    deleteGarment: async function(garment){
+        try {
+            const res = await $.post(`${this.URL}/${garment._id}?_method=DELETE`)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    },
 }
 
 const closetUiController = {
