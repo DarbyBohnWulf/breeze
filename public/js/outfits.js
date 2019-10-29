@@ -1,9 +1,16 @@
-console.log('outfits frontend code')
+const outfitsUiController = {
+  getOutfitCard: function(outfit) {
+    const $card = $('<div>').addClass('card garment').attr('_id', outfit._id).text('hello world')
 
-$(document).on('ready', async () => {
+    return $card
+  }
+}
+
+$(document).ready(async () => {
   try {
     const res = await apiInterface.getOutfits()
-    console.log(res)
+
+    res.forEach(o => $('#outfits').append(outfitsUiController.getOutfitCard(o)))
   } catch (err) {
     console.log(err)
   }

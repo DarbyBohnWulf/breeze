@@ -54,8 +54,8 @@ router.get('/outfits', async (req, res, next) => {
   try {
     const dummyGs = await getDummyGarments()
     const sortedGs = await getSortedGarments(dummyGs)
-    const outfit1 = await buildOutfit(sortedGs)
-    const outfit2 = await buildOutfit(sortedGs)
+    const outfit1 = {clothes: await buildOutfit(sortedGs), _id: 'abc'}
+    const outfit2 = {clothes: await buildOutfit(sortedGs), _id: 'def'}
     const outfits = [
       outfit1, outfit2
     ]
