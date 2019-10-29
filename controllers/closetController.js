@@ -7,4 +7,8 @@ router.get('/', (req, res, next) => {
     res.render('closet/index.ejs')
 })
 
+router.get('/outfits/', (req, res, next) => {
+    res.render('closet/outfits.ejs')
+})
+
 module.exports = router
