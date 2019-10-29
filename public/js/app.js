@@ -62,7 +62,8 @@ const closetUiController = {
     //Given a garment object, creates and returns a
     //bootstrap card element
     getGarmentCard: function(garment) {
-        const $card = $('<div>').addClass('card garment')
+        //TODO: Change this so id isn't broken
+        const $card = $('<div>').addClass('card garment').attr('_id', garment._id)
 
         const $imageCap = $('<img>').addClass('card-img-top')
         $imageCap.attr('src', 'https://picsum.photos/200/200')
@@ -77,6 +78,11 @@ const closetUiController = {
 
         const $garmentAttributes = $('<p>').text(`${garment.role} ${garment.layer} ${garment.precip}`)
         $cardBody.append($garmentAttributes)
+
+        const $editButton = $('<a>').addClass('btn btn-primary').text('Edit')
+        $cardBody.append($editButton)
+        const $deleteButton = $('<a>').addClass('btn btn-danger').text('Delete')
+        $cardBody.append($deleteButton)
 
         return $card
     },
@@ -93,6 +99,6 @@ $(document).ready(async () => {
     }
 })
 
-$(document).on('click', async (e) => {
-    console.log(e.target.id)
+$('.scroller').on('click', (e) => {
+    console.log(e.target.id, e.target.classList)
 })
