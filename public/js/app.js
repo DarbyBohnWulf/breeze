@@ -1,5 +1,6 @@
 const apiInterface = {
     URL: "http://localhost:3000/api/garments",
+    outfitsURL: "http://localhost:3000/api/outfits",
 
     //Gets all garments from user's closet and populates
     //closetGarments
@@ -41,6 +42,15 @@ const apiInterface = {
             console.log(err)
         }
     },
+
+    getOutfits: async function() {
+        try {
+            const res = await $.getJSON(`${this.outfitsURL}`)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 

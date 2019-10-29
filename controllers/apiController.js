@@ -48,4 +48,14 @@ router.delete('/garments/:id', async (req,res, next) => {
   }
 })
 
+router.get('/outfits', (req, res, next) => {
+  try {
+    const outfits = []
+
+    res.json(outfits)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router
