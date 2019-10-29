@@ -2,8 +2,10 @@ const express = require('express');
 
 const breeze = require('../lib/breeze')
 const getDummyGarments = breeze.getDummyGarments
+const getSortedGarments = breeze.getSortedGarments
+const buildOutfit = breeze.buildOutfit
 
-const router = express.Router();
+const router = express.Router()
 
 // garment index
 router.get('/garments', async (req,res, next) => {
@@ -48,9 +50,15 @@ router.delete('/garments/:id', async (req,res, next) => {
   }
 })
 
-router.get('/outfits', (req, res, next) => {
+router.get('/outfits', async (req, res, next) => {
   try {
-    const outfits = []
+    const dummyGs = await getDummyGarments()
+    const sortedGs = await getSortedGarments(dummyGs)
+    const outfit1 = await buildOutfit(sortedGs)
+    const outfit2 = await buildOutfit(sortedGs)
+    const outfits = [
+      outfit1, outfit2
+    ]
 
     res.json(outfits)
   } catch (err) {
