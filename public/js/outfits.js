@@ -1,6 +1,13 @@
 const outfitsUiController = {
   getOutfitCard: function(outfit) {
-    const $card = $('<div>').addClass('card garment').attr('_id', outfit._id).text('hello world')
+    const $card = $('<div>').addClass('card garment').attr('_id', outfit._id)
+
+    const $ul = $('<ul>')
+    outfit.garments.forEach(g => {
+      const $garment = $('<li>').text(g.name)
+      $ul.append($garment)
+    })
+    $card.append($ul)
 
     return $card
   }
