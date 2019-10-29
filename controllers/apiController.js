@@ -20,6 +20,7 @@ router.post('/garments', async (req,res, next) => {
   try {
     console.log("hittin that post")
     console.log(req.body)
+    res.json(req.body)
   } catch (err) {
     next(err)
   }
@@ -28,8 +29,9 @@ router.post('/garments', async (req,res, next) => {
 // garment update
 router.put('/garments/:id', async (req,res, next) => {
   try {
-    console.log("hittin' that update");
+    console.log("hittin' that update", req.params.id);
     console.log(req.body);
+    res.send(req.body)
   } catch (err) {
     next(err)
   }
@@ -39,7 +41,8 @@ router.put('/garments/:id', async (req,res, next) => {
 router.delete('/garments/:id', async (req,res, next) => {
   try {
     console.log("hittin' that ol' delete route");
-    console.log(req.body);
+    console.log(req.params.id);
+    res.json({deleted: req.params.id})
   } catch (err) {
     next(err)
   }

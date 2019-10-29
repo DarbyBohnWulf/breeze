@@ -1,15 +1,44 @@
 const apiInterface = {
-    URL: "http://localhost:3000/api/",
+    URL: "http://localhost:3000/api/garments",
 
     //Gets all garments from user's closet and populates
     //closetGarments
     //User should be logged in, or else this may break
     getCloset: async function() {
         try {
-            const res = await $.getJSON(`${this.URL + 'garments'}`)
+            const res = await $.getJSON(`${this.URL}`)
             return res
         } catch (err) {
-            return([])
+            console.log(err)
+        }
+    },
+
+    createGarment: async function(garment) {
+        try {
+            const res = await $.post(`${this.URL}`, garment)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    //expects a garment with _id field so that server can update
+    updateGarment: async function(garment){
+        try {
+            //Make a post request to domain/api/closet/garmentId?_method=PUT
+            const res = await $.post(`${this.URL}/${garment._id}?_method=PUT`, garment)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    deleteGarment: async function(garment){
+        try {
+            const res = await $.post(`${this.URL}/${garment._id}?_method=DELETE`)
+            return res
+        } catch (err) {
+            console.log(err)
         }
     },
 }
@@ -33,7 +62,8 @@ const closetUiController = {
     //Given a garment object, creates and returns a
     //bootstrap card element
     getGarmentCard: function(garment) {
-        const $card = $('<div>').addClass('card garment')
+        //TODO: Change this so id isn't broken
+        const $card = $('<div>').addClass('card garment').attr('_id', garment._id)
 
         const $imageCap = $('<img>').addClass('card-img-top')
         $imageCap.attr('src', 'https://picsum.photos/200/200')
@@ -48,6 +78,11 @@ const closetUiController = {
 
         const $garmentAttributes = $('<p>').text(`${garment.role} ${garment.layer} ${garment.precip}`)
         $cardBody.append($garmentAttributes)
+
+        const $editButton = $('<a>').addClass('btn btn-primary').text('Edit')
+        $cardBody.append($editButton)
+        const $deleteButton = $('<a>').addClass('btn btn-danger').text('Delete')
+        $cardBody.append($deleteButton)
 
         return $card
     },
@@ -64,6 +99,6 @@ $(document).ready(async () => {
     }
 })
 
-$(document).on('click', async (e) => {
-    console.log(e.target.id)
+$('.scroller').on('click', (e) => {
+    console.log(e.target.id, e.target.classList)
 })
