@@ -1,4 +1,5 @@
 const express = require('express');
+const Outfit = require('../models/outfit.js')
 
 const breeze = require('../lib/breeze')
 const getDummyGarments = breeze.getDummyGarments
@@ -64,6 +65,16 @@ router.get('/outfits', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+})
+
+router.post('/outfits', async (req, res, next) => {
+    try {
+      const garments = Outfit.find({$in: {_id: req.body.garments}})
+      const createdOutfit = await Outfit.create(req.body)
+      res.json(createdOutfit)
+    } catch (err) {
+      next(err)
+    }
 })
 
 module.exports = router

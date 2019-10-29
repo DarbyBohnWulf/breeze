@@ -55,7 +55,27 @@ $('#new').on('click', () => {
     const $li = $('<li>').text(garment.name).attr('id', garment._id).prependTo($('#newOutfit ul'))
   }
 
+  const finishHandler = () => {
+    //grab garment IDs from html (don't select the last element b/c its the selector)
+    const garmentIds = $blankOutfit.find('ul li').slice(0,-1).toArray().map(i => i.id)
+
+    //post request using apicontroller
+    const newOutfit = {
+      name: 'new outfit' + new Date().toLocaleString(),
+      garments: garmentIds,
+    }
+
+    apiInterface.createOutfit(newOutfit).then((outfit) => {
+      console.dir(outfit)
+      const $newOutfit = outfitsUiController.getOutfitCard(outfit)
+      $newOutfit.appendTo($('#outfits'))
+    }).catch(
+      //panic
+    )
+  }
+
   $blankOutfit.find('#addGarment').on('click', handler)
+  $blankOutfit.find('#finishOutfit').on('click', finishHandler)
 
   $('#new').css('display', 'none')
 })
