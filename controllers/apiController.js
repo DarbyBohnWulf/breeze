@@ -69,7 +69,7 @@ router.get('/outfits', async (req, res, next) => {
 
 router.post('/outfits', async (req, res, next) => {
     try {
-      const garments = Outfit.find({$in: {_id: req.body.garments}})
+      const garments = await Outfit.find({$in: {_id: req.body.garments}})
       const createdOutfit = await Outfit.create(req.body)
       res.json(createdOutfit)
     } catch (err) {
