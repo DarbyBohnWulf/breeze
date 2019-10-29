@@ -1,17 +1,30 @@
 const apiInterface = {
-    URL: "http://localhost:3000/api/",
+    URL: "http://localhost:3000/api/garments",
 
     //Gets all garments from user's closet and populates
     //closetGarments
     //User should be logged in, or else this may break
     getCloset: async function() {
         try {
-            const res = await $.getJSON(`${this.URL + 'garments'}`)
+            const res = await $.getJSON(`${this.URL}`)
             return res
         } catch (err) {
-            return([])
+            console.log(err)
         }
     },
+
+    createGarment: async function(garment) {
+        try {
+            const res = await $.post(`${this.URL}`, garment)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    updateGarment: async function(){},
+
+    deleteGarment: async function(){},
 }
 
 const closetUiController = {

@@ -20,6 +20,7 @@ router.post('/garments', async (req,res, next) => {
   try {
     console.log("hittin that post")
     console.log(req.body)
+    res.json(req.body)
   } catch (err) {
     next(err)
   }
