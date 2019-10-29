@@ -29,8 +29,9 @@ router.post('/garments', async (req,res, next) => {
 // garment update
 router.put('/garments/:id', async (req,res, next) => {
   try {
-    console.log("hittin' that update");
+    console.log("hittin' that update", req.params.id);
     console.log(req.body);
+    res.send(req.body)
   } catch (err) {
     next(err)
   }

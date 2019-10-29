@@ -22,7 +22,16 @@ const apiInterface = {
         }
     },
 
-    updateGarment: async function(){},
+    //expects a garment with _id field so that server can update
+    updateGarment: async function(garment){
+        try {
+            //Make a post request to domain/api/closet/garmentId?_method=PUT
+            const res = await $.post(`${this.URL}/${garment._id}?_method=PUT`, garment)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    },
 
     deleteGarment: async function(){},
 }
