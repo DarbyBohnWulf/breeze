@@ -3,13 +3,13 @@ const closetUiController = {
 
     populateCategory: function(garmentRole) {
         this.clothes.forEach((g) => {
-            this.addCardToRole(garmentRole, g)
+            this.addGarmentToRole(garmentRole, g)
         })
     },
 
     //Givena role and garment object, creates a card
     //to place in the closet section
-    addCardToRole: function(garmentRole, garment) {
+    addGarmentToRole: function(garmentRole, garment) {
         const $card = this.getGarmentCard(garment)
         //$(`#${garmentRole}`).append($card)
         $card.insertBefore(`div#${garmentRole} div.new`)
@@ -41,6 +41,42 @@ const closetUiController = {
 
         return $card
     },
+
+    getBlankGarmentCard: function() {
+        const $card = $('<div>').addClass('card garment')
+
+        const $cardBody = $('<div>').addClass('card-body')
+        $card.append($cardBody)
+
+        const $title = $('<input>').attr('placeholder', 'Name')
+        $cardBody.append($title)
+
+        const $garmentAttributes = $('<p>').text(`layer precipitation`)
+        $cardBody.append($garmentAttributes)
+
+        const $layerSelect = $('<select>')
+        $cardBody.append($layerSelect)
+        const layerOptions = ['inner', 'mid', 'outer']
+        layerOptions.forEach((o) => {
+            const $opt = $('<option>').attr('value', o).text(o)
+            $layerSelect.append($opt)
+        })
+
+        const $weatherSelect = $('<select>')
+        $cardBody.append($weatherSelect)
+        const weatherOptions = ['wet', 'dry', 'both']
+        weatherOptions.forEach((o) => {
+            const $opt = $('<option>').attr('value', o).text(o)
+            $weatherSelect.append($opt)
+        })
+
+        const $saveButton = $('<a>').addClass('btn btn-success').text('Save')
+        $cardBody.append($saveButton)
+        const $cancelButton = $('<a>').addClass('btn btn-danger').text('Cancel')
+        $cardBody.append($cancelButton)
+
+        return $card
+    },
 }
 
 $(document).ready(async () => {
@@ -55,5 +91,14 @@ $(document).ready(async () => {
 })
 
 $('.scroller').on('click', (e) => {
-    console.log(e.target.id, e.target.classList)
+    //console.log(e.target.id, e.target.classList)
+})
+
+//click on new garment for a category
+$('.new-garment').on('click', (e) => {
+    const garmentRole = "tops" //TODO: Make this dynamic
+    const $garmentTemplate = closetUiController.getBlankGarmentCard()
+    $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
+    //:G`
+    //TODO: Hide the template
 })
