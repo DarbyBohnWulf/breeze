@@ -89,10 +89,11 @@ router.get('/outfits', async (req, res, next) => {
     let outfits = []
     if (req.session.userId) {
       const owningUser = await User.findById(req.session.userId)
-        .populate('outfits')
+        .populate({path: 'outfits', populate: {path: 'garments', model: 'Garment'}})
         .populate('ootd')
         .exec()
       outfits = owningUser.outfits.toObject()
+      console.log(outfits)
       const newOutfit = new Outfit({ garments: owningUser.ootd.garments })
       outfits.push({ garments: newOutfit.garments, _id: newOutfit._id })
     } else {
@@ -116,6 +117,14 @@ router.post('/outfits', async (req, res, next) => {
     let createdOutfit
     if (req.session.userId) {
       const owningUser = await User.findById(req.session.userId)
+      //check if req.body.garments[] is actually an array because bodyparser is broken
+      const parsedArray = req.body['garments[]']
+      if (typeof(parsedArray) === 'string') {
+        req.body.garments = [parsedArray]
+      } else {
+        req.body.garments = req.body['garments[]']
+      }
+      console.log(req.body)
       createdOutfit = await Outfit.create(req.body)
       owningUser.outfits.push(createdOutfit)
       await owningUser.save()
