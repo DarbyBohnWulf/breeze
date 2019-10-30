@@ -91,10 +91,7 @@ router.get('/outfits', async (req, res, next) => {
       const owningUser = await User.findById(req.session.userId)
         .populate('outfits')
         .populate('ootd')
-      outfits = owningUser.outfits
-      owningUser.outfits.forEach(o => {
-        outfits.push(o)
-      })
+        .exec()
       outfits = owningUser.outfits.toObject()
       const newOutfit = new Outfit({ garments: owningUser.ootd.garments })
       outfits.push({ garments: newOutfit.garments, _id: newOutfit._id })
