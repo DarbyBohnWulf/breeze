@@ -4,7 +4,7 @@ const outfitSchema = new mongoose.Schema({
   name: String,
   garments: [{
     type: mongoose.Schema.Types.ObjectId,
-    refs: 'Garment'
+    ref: 'Garment'
   }],
 })
 

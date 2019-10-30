@@ -11,15 +11,15 @@ const userSchema = new mongoose.Schema({
   },
   closet: [{
     type: mongoose.Schema.Types.ObjectId,
-    refs: 'Garment'
+    ref: 'Garment'
   }],
   outfits: [{
     type: mongoose.Schema.Types.ObjectId,
-    refs: 'Outfit'
+    ref: 'Outfit'
   }],
   ootd: [{
     type: mongoose.Schema.Types.ObjectId,
-    refs: 'Garment'
+    ref: 'Garment'
   }],
 })
 
