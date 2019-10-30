@@ -54,9 +54,15 @@ router.put('/garments/:id', async (req,res, next) => {
 // garment delete
 router.delete('/garments/:id', async (req,res, next) => {
   try {
-    console.log("hittin' that ol' delete route");
-    console.log(req.params.id);
-    res.json({deleted: req.params.id})
+    const deletedGarment = await Garment.findByIdAndDelete(req.params.id)
+    const owningUser = await User.findOne({
+      closet: {
+        $in: [ deletedGarment._id ]
+      }
+    })
+    owningUser.closet.remove(deletedGarment)
+    await owningUser.save()
+    res.json({ deleted: req.params.id, user: owningUser })
   } catch (err) {
     next(err)
   }
@@ -64,14 +70,22 @@ router.delete('/garments/:id', async (req,res, next) => {
 
 router.get('/outfits', async (req, res, next) => {
   try {
-    const dummyGs = await getDummyGarments()
-    const sortedGs = await getSortedGarments(dummyGs)
-    const outfit1 = {garments: await buildOutfit(sortedGs), _id: 'abc'}
-    const outfit2 = {garments: await buildOutfit(sortedGs), _id: 'def'}
-    const outfits = [
-      outfit1, outfit2
-    ]
-
+    let outfits = []
+    if (req.session.userId) {
+      const owningUser = await User.findById(req.session.userId)
+        .populate('outfits')
+        .populate('ootd')
+      outfits = owningUser.outfits
+      outfits.unshift(owningUser.ootd)
+    } else {
+      const dummyGs = await getDummyGarments()
+      const sortedGs = await getSortedGarments(dummyGs)
+      const outfit1 = {garments: await buildOutfit(sortedGs), _id: 'abc'}
+      const outfit2 = {garments: await buildOutfit(sortedGs), _id: 'def'}
+      outfits = [
+        outfit1, outfit2
+      ]
+    }
     res.json(outfits)
   } catch (err) {
     next(err)
@@ -80,9 +94,16 @@ router.get('/outfits', async (req, res, next) => {
 
 router.post('/outfits', async (req, res, next) => {
     try {
-      const garments = await Outfit.find({$in: {_id: req.body.garments}})
-      const createdOutfit = await Outfit.create(req.body)
-      res.json(createdOutfit)
+      let createdOutfit
+      if (req.session.userId) {
+        const owningUser = await User.findById(req.session.userId)
+        createdOutfit = await Outfit.create(req.body)
+        owningUser.outfits.push(createdOutfit)
+      } else {
+        const garments = await Outfit.find({$in: {_id: req.body.garments}})
+        createdOutfit = await Outfit.create(req.body)
+      }
+      res.status(201).json(createdOutfit)
     } catch (err) {
       next(err)
     }
