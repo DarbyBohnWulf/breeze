@@ -44,9 +44,8 @@ router.post('/garments', async (req,res, next) => {
 // garment update
 router.put('/garments/:id', async (req,res, next) => {
   try {
-    console.log("hittin' that update", req.params.id);
-    console.log(req.body);
-    res.send(req.body)
+    const editedGarment = await Garment.findByIdAndUpdate(req.params.id, req.body)
+    res.status(201).json({ garment: editedGarment })
   } catch (err) {
     next(err)
   }
