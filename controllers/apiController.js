@@ -68,6 +68,7 @@ router.delete('/garments/:id', async (req,res, next) => {
   }
 })
 
+// outfit index
 router.get('/outfits', async (req, res, next) => {
   try {
     let outfits = []
@@ -97,6 +98,7 @@ router.get('/outfits', async (req, res, next) => {
   }
 })
 
+// outfit create
 router.post('/outfits', async (req, res, next) => {
   try {
     let createdOutfit
@@ -110,6 +112,16 @@ router.post('/outfits', async (req, res, next) => {
       createdOutfit = await Outfit.create(req.body)
     }
     res.status(201).json(createdOutfit)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// outfit update
+router.put('/outfits/:id', async (req,res, next) => {
+  try {
+    const updatedOutfit = await Outfit.findByIdAndUpdate(req.params.id, req.body)
+    res.status(201).json(updatedOutfit)
   } catch (err) {
     next(err)
   }
