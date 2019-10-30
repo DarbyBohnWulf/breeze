@@ -98,21 +98,21 @@ router.get('/outfits', async (req, res, next) => {
 })
 
 router.post('/outfits', async (req, res, next) => {
-    try {
-      let createdOutfit
-      if (req.session.userId) {
-        const owningUser = await User.findById(req.session.userId)
-        createdOutfit = await Outfit.create(req.body)
-        owningUser.outfits.push(createdOutfit)
-        await owningUser.save()
-      } else {
-        const garments = await Outfit.find({$in: {_id: req.body.garments}})
-        createdOutfit = await Outfit.create(req.body)
-      }
-      res.status(201).json(createdOutfit)
-    } catch (err) {
-      next(err)
+  try {
+    let createdOutfit
+    if (req.session.userId) {
+      const owningUser = await User.findById(req.session.userId)
+      createdOutfit = await Outfit.create(req.body)
+      owningUser.outfits.push(createdOutfit)
+      await owningUser.save()
+    } else {
+      const garments = await Outfit.find({$in: {_id: req.body.garments}})
+      createdOutfit = await Outfit.create(req.body)
     }
+    res.status(201).json(createdOutfit)
+  } catch (err) {
+    next(err)
+  }
 })
 
 module.exports = router
