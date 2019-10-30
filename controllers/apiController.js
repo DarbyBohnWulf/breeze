@@ -76,7 +76,14 @@ router.get('/outfits', async (req, res, next) => {
         .populate('outfits')
         .populate('ootd')
       outfits = owningUser.outfits
-      outfits.unshift(owningUser.ootd)
+      owningUser.outfits.forEach(o => {
+        console.log(o)
+        outfits.push(o)
+      })
+      outfits = new Outfit({ garments: owningUser.ootd })
+      new 
+      console.log('afterootd', outfits)
+      // outfits.push(currOotd)
     } else {
       const dummyGs = await getDummyGarments()
       const sortedGs = await getSortedGarments(dummyGs)
@@ -86,6 +93,7 @@ router.get('/outfits', async (req, res, next) => {
         outfit1, outfit2
       ]
     }
+    console.log(outfits)
     res.json(outfits)
   } catch (err) {
     next(err)
@@ -99,6 +107,7 @@ router.post('/outfits', async (req, res, next) => {
         const owningUser = await User.findById(req.session.userId)
         createdOutfit = await Outfit.create(req.body)
         owningUser.outfits.push(createdOutfit)
+        await owningUser.save()
       } else {
         const garments = await Outfit.find({$in: {_id: req.body.garments}})
         createdOutfit = await Outfit.create(req.body)
