@@ -35,7 +35,7 @@ router.post('/garments', async (req,res, next) => {
     const newGarment = await Garment.create(req.body)
     user.closet.push(newGarment)
     await user.save()
-    res.status(201).json({ user: user, garment: newGarment })
+    res.status(201).json(newGarment)
   } catch (err) {
     next(err)
   }
@@ -45,7 +45,7 @@ router.post('/garments', async (req,res, next) => {
 router.put('/garments/:id', async (req,res, next) => {
   try {
     const editedGarment = await Garment.findByIdAndUpdate(req.params.id, req.body)
-    res.status(201).json({ garment: editedGarment })
+    res.status(201).json(editedGarment)
   } catch (err) {
     next(err)
   }
@@ -62,7 +62,7 @@ router.delete('/garments/:id', async (req,res, next) => {
     })
     owningUser.closet.remove(deletedGarment)
     await owningUser.save()
-    res.json({ deleted: req.params.id, user: owningUser })
+    res.json(deletedGarment)
   } catch (err) {
     next(err)
   }
