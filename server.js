@@ -5,6 +5,8 @@ const methodOverride = require('method-override')
 const app = express()
 const PORT = 3000
 
+// use the .env file!
+require('dotenv').config()
 //Connect to MongoDB
 require('./db/db.js')
 
@@ -14,7 +16,7 @@ app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
 app.use(session({
-  secret: 'replace this wiejfo;awijf;oaiwj',
+  secret: process.env.SECRET,
   resave: true,
   saveUninitialized: true,
 }))
