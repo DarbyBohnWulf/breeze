@@ -18,10 +18,12 @@ router.get('/garments', async (req,res, next) => {
     if (req.session.userId) {
       const user = await User.findById(req.session.userId)
         .populate('closet')
+        .exec()
       garments = user.closet
     } else {
       garments = await getDummyGarments()
     }
+    console.log(garments)
     res.json(garments)
   } catch (err) {
     next(err)
@@ -60,8 +62,21 @@ router.delete('/garments/:id', async (req,res, next) => {
         $in: [ deletedGarment._id ]
       }
     })
+    const containingOutfit = await Outfit.findOne({
+      garments: {
+        $in: [ deletedGarment._id ]
+      }
+    })
     owningUser.closet.remove(deletedGarment)
-    await owningUser.save()
+    if (containingOutfit.garments) {
+      containingOutfit.garments.remove(deletedGarment)
+      await Promise.all([
+        owningUser.save(),
+        containingOutfit.save()
+      ])
+    } else {
+      await owningUser.save()
+    }
     res.json(deletedGarment)
   } catch (err) {
     next(err)
@@ -122,6 +137,22 @@ router.put('/outfits/:id', async (req,res, next) => {
   try {
     const updatedOutfit = await Outfit.findByIdAndUpdate(req.params.id, req.body)
     res.status(201).json(updatedOutfit)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// outfit delete
+router.delete('/outfits/:id', async (req,res, next) => {
+  try {
+    const deletedOutfit = await Outfit.findByIdAndDelete(req.params.id)
+    const owningUser = await User.findOne({
+      outfits: {
+        $in: [ deletedOutfit._id ]
+      }
+    })
+    owningUser.outfits.remove()
+    res.json(deletedOutfit)
   } catch (err) {
     next(err)
   }
