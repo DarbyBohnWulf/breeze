@@ -103,10 +103,12 @@ $('.scroller').on('click', (e) => {
 
 //click on new garment for a category
 $('.new-garment').on('click', (e) => {
-    const garmentRole = "top" //TODO: Make this dynamic
+    const $clickedButton = $(e.target)
+    const garmentRole = $clickedButton.parent().parent().attr('id') //TODO: Make this dynamic
     const $garmentTemplate = closetUiController.getBlankGarmentCard()
     $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
-    //TODO: Hide the template
+    //TODO: Hide the new button
+    $clickedButton.css('display', 'none')
 })
 
 //click on save new garment
