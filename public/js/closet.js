@@ -44,7 +44,6 @@ const closetUiController = {
 }
 
 $(document).ready(async () => {
-    console.log('document ready') 
     try {
         const userClothes = await apiInterface.getCloset()
         closetUiController.clothes = userClothes
