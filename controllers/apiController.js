@@ -6,6 +6,7 @@ const getDummyGarments = breeze.getDummyGarments
 const getSortedGarments = breeze.getSortedGarments
 const buildOutfit = breeze.buildOutfit
 const User = require('../models/user')
+const Garment = require('../models/garment')
 
 const router = express.Router()
 
@@ -30,9 +31,11 @@ router.get('/garments', async (req,res, next) => {
 // garment create
 router.post('/garments', async (req,res, next) => {
   try {
-    console.log("hittin that post")
-    console.log(req.body)
-    res.json(req.body)
+    const user = await User.findById(req.session.userId)
+    const newGarment = await Garment.create(req.body)
+    user.closet.push(newGarment)
+    await user.save()
+    res.status(201).json({ user: user, garment: newGarment })
   } catch (err) {
     next(err)
   }
