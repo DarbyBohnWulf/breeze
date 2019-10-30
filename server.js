@@ -14,9 +14,9 @@ app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
 app.use(session({
-    secret: 'replace this wiejfo;awijf;oaiwj',
-    resave: true,
-    saveUninitialized: true,
+  secret: 'replace this wiejfo;awijf;oaiwj',
+  resave: true,
+  saveUninitialized: true,
 }))
 
 app.use(express.urlencoded({ extended: false }))
@@ -30,12 +30,21 @@ app.use('/closet', closetController)
 const apiController = require('./controllers/apiController.js')
 app.use('/api', apiController)
 
+// host redirect
+app.get('/', (req,res, next) => {
+  if (req.session.username) {
+    res.redirect('/closet')
+  } else {
+    res.redirect('/users/login')
+  }
+})
+
 //Error handler
 app.use((err, req, res, next) => {
-    console.log(err)
-    res.json(err)
+  console.log(err)
+  res.json(err)
 })
 
 app.listen(PORT, () => {
-    console.log(`Started server on port ${PORT}`)
+  console.log(`Started server on port ${PORT}`)
 })
