@@ -11,14 +11,14 @@ const closetUiController = {
     //to place in the closet section
     addCardToRole: function(garmentRole, garment) {
         const $card = this.getGarmentCard(garment)
-        $(`#${garmentRole}`).append($card)
+        //$(`#${garmentRole}`).append($card)
+        $card.insertBefore(`div#${garmentRole} div.new`)
     },
 
     //Given a garment object, creates and returns a
     //bootstrap card element
     getGarmentCard: function(garment) {
-        //TODO: Change this so id isn't broken
-        const $card = $('<div>').addClass('card garment').attr('_id', garment._id)
+        const $card = $('<div>').addClass('card garment').attr('id', garment._id)
 
         const $imageCap = $('<img>').addClass('card-img-top')
         $imageCap.attr('src', 'https://picsum.photos/200/200')
