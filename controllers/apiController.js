@@ -5,14 +5,23 @@ const breeze = require('../lib/breeze')
 const getDummyGarments = breeze.getDummyGarments
 const getSortedGarments = breeze.getSortedGarments
 const buildOutfit = breeze.buildOutfit
+const User = require('../models/user')
 
 const router = express.Router()
 
 // garment index
 router.get('/garments', async (req,res, next) => {
   try {
-    console.log("hittin' that get");
-    res.json(await getDummyGarments())
+    let garments
+    // check if the user is logged in
+    if (req.session.userId) {
+      const user = await User.findById(req.session.userId)
+        .populate('closet')
+      garments = user.closet
+    } else {
+      garments = await getDummyGarments()
+    }
+    res.json(garments)
   } catch (err) {
     next(err)
   }
