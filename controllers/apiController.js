@@ -77,13 +77,11 @@ router.get('/outfits', async (req, res, next) => {
         .populate('ootd')
       outfits = owningUser.outfits
       owningUser.outfits.forEach(o => {
-        console.log(o)
         outfits.push(o)
       })
-      outfits = new Outfit({ garments: owningUser.ootd })
-      new 
-      console.log('afterootd', outfits)
-      // outfits.push(currOotd)
+      outfits = owningUser.outfits.toObject()
+      const newOutfit = new Outfit({ garments: owningUser.ootd.garments })
+      outfits.push({ garments: newOutfit.garments, _id: newOutfit._id })
     } else {
       const dummyGs = await getDummyGarments()
       const sortedGs = await getSortedGarments(dummyGs)
@@ -93,7 +91,6 @@ router.get('/outfits', async (req, res, next) => {
         outfit1, outfit2
       ]
     }
-    console.log(outfits)
     res.json(outfits)
   } catch (err) {
     next(err)
