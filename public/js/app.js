@@ -7,12 +7,7 @@ const apiInterface = {
   //User should be logged in, or else this may break
   getCloset: async function() {
     try {
-      const res = await $.getJSON({
-        url: `${this.URL}`,
-        dataType: 'json',
-        xhrFields: { withCredentials: true },
-        crossDomain: false,
-      })
+      const res = await $.getJSON(`${this.URL}`)
       return res
     } catch (err) {
       console.log(err)
@@ -50,12 +45,7 @@ const apiInterface = {
 
   getOutfits: async function() {
     try {
-      const res = await $.getJSON({
-        url: this.outfitsURL,
-        dataType: 'json',
-        xhrFields: { withCredentials: true },
-        crossDomain: false,
-      })
+      const res = await $.getJSON(this.outfitsURL)
       return res
     } catch (err) {
       console.log(err)
