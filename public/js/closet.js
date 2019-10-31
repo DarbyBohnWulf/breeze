@@ -36,7 +36,7 @@ const closetUiController = {
 
         const $editButton = $('<a>').addClass('btn btn-primary').text('Edit')
         $cardBody.append($editButton)
-        const $deleteButton = $('<a>').addClass('btn btn-danger').text('Delete')
+        const $deleteButton = $('<a>').addClass('btn btn-danger delete').text('Delete')
         $cardBody.append($deleteButton)
 
         return $card
@@ -103,10 +103,7 @@ $('.scroller').on('click', (e) => {
 
 //click on new garment for a category
 $('.new-garment').on('click', (e) => {
-    const garmentRole = "top" //TODO: Make this dynamic
-    const $garmentTemplate = closetUiController.getBlankGarmentCard()
-    $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
-    //TODO: Hide the template
+
 })
 
 //click on save new garment
@@ -126,5 +123,27 @@ $('#top').on('click', (e) => {
         }).catch((e) => {
             console.log(e)
         })
+    }
+
+    if (e.target.classList.contains('delete')) {
+        //get the id of this garment (the card div has id)
+        const $clickedCard = $(e.target).parent().parent()
+        const garmentId = $clickedCard.attr('id')
+        //make an api call to delete
+        //delete the card
+        apiInterface.deleteGarment({_id: garmentId}).then((deletedGarment) => {
+            $clickedCard.remove()
+        }).catch((e) => {
+            console.log(e)
+        })
+    }
+
+    if(e.target.classList.contains('new-garment')){
+        const $clickedButton = $(e.target)
+        const garmentRole = $clickedButton.parent().parent().attr('id') //TODO: Make this dynamic
+        const $garmentTemplate = closetUiController.getBlankGarmentCard()
+        $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
+        //TODO: Hide the new button
+        $clickedButton.css('display', 'none')
     }
 })
