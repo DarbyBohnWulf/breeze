@@ -103,12 +103,7 @@ $('.scroller').on('click', (e) => {
 
 //click on new garment for a category
 $('.new-garment').on('click', (e) => {
-    const $clickedButton = $(e.target)
-    const garmentRole = $clickedButton.parent().parent().attr('id') //TODO: Make this dynamic
-    const $garmentTemplate = closetUiController.getBlankGarmentCard()
-    $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
-    //TODO: Hide the new button
-    $clickedButton.css('display', 'none')
+
 })
 
 //click on save new garment
@@ -141,5 +136,14 @@ $('#top').on('click', (e) => {
         }).catch((e) => {
             console.log(e)
         })
+    }
+
+    if(e.target.classList.contains('new-garment')){
+        const $clickedButton = $(e.target)
+        const garmentRole = $clickedButton.parent().parent().attr('id') //TODO: Make this dynamic
+        const $garmentTemplate = closetUiController.getBlankGarmentCard()
+        $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
+        //TODO: Hide the new button
+        $clickedButton.css('display', 'none')
     }
 })
