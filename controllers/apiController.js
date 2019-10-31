@@ -81,6 +81,16 @@ router.delete('/garments/:id', async (req,res, next) => {
   }
 })
 
+// garment show
+router.get('/garments/:id', async (req,res, next) => {
+  try {
+    const garment = await Garment.findById(req.params.id)
+    res.json(garment)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // outfit index
 router.get('/outfits', async (req, res, next) => {
   try {
