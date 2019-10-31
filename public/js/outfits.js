@@ -20,6 +20,8 @@ const outfitsUiController = {
   getBlankOutfitCard: function() {
     const $card = $('<div>').addClass('card').attr('id', 'newOutfit')
 
+    const $name = $('<input>').attr('id', 'newName').attr('placeholder', 'name').appendTo($card)
+
     const $ul = $('<ul>').appendTo($card)
     const $addGarmentLi = $('<li>').appendTo($ul)
     const $garmentSelect = $('<select>').appendTo($addGarmentLi)
@@ -65,7 +67,7 @@ $('#new').on('click', () => {
     //post request using apicontroller
     const newOutfit = {
       //TODO: make it take name from input
-      name: 'new outfit' + new Date().toLocaleString(),
+      name: $('#newName').val() || 'New Outfit Made ' + new Date().toLocaleString(),
       garments: garmentIds,
     }
 
