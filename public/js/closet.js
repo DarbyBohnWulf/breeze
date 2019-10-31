@@ -123,6 +123,8 @@ $('.card-deck').on('click', (e) => {
         apiInterface.createGarment(garmentToPost).then((garment) => {
             closetUiController.addGarmentToRole(role, garment)
             $newGarmentCard.remove()
+            //Show the hidden new button now that we're done
+            const $test = $(`#${role} .new-garment`).css('display', '')
         }).catch((e) => {
             console.log(e)
         })
