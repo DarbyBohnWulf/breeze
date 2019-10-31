@@ -1,4 +1,5 @@
 const express = require('express');
+const request = require('superagent')
 const Outfit = require('../models/outfit.js')
 
 const breeze = require('../lib/breeze')
@@ -153,6 +154,23 @@ router.delete('/outfits/:id', async (req,res, next) => {
     })
     owningUser.outfits.remove(deletedOutfit._id)
     res.json(deletedOutfit)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// weather route
+router.get('/weather', async (req,res, next) => {
+  try {
+    let zip
+    if (req.query.zip) {
+      zip = req.query.zip
+    } else zip = 60611
+    const weatherResponse = await request
+      .get('api.openweathermap.org/data/2.5/weather')
+      .query({ zip: zip + ',us', APPID: process.env.API_KEY, units: 'imperial' })
+      .catch()
+    res.json(weatherResponse.body)
   } catch (err) {
     next(err)
   }
