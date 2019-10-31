@@ -1,6 +1,6 @@
 const apiInterface = {
-  URL: "http://localhost:3000/api/garments",
-  outfitsURL: "http://localhost:3000/api/outfits",
+  URL: "/api/garments",
+  outfitsURL: "api/outfits",
 
   //Gets all garments from user's closet and populates
   //closetGarments
