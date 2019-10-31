@@ -46,7 +46,7 @@ const closetUiController = {
         const $garmentAttributes = $('<p>').text(`${garment.role} ${garment.layer} ${garment.precip}`)
         $cardBody.append($garmentAttributes)
 
-        const $editButton = $('<a>').addClass('btn btn-primary').text('Edit')
+        const $editButton = $('<a>').addClass('btn btn-primary edit').text('Edit')
         $cardBody.append($editButton)
         const $deleteButton = $('<a>').addClass('btn btn-danger delete').text('Delete')
         $cardBody.append($deleteButton)
@@ -149,5 +149,11 @@ $('.card-deck').on('click', (e) => {
         $garmentTemplate.insertBefore(`div#${role} div.new`)
         //TODO: Hide the new button
         $clickedButton.css('display', 'none')
+    }
+
+    //edit a garment
+    if(e.target.classList.contains('edit')) {
+        const id = e.target.parentNode.parentNode.id
+        console.log('editting: ', id)
     }
 })
