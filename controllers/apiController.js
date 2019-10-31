@@ -93,6 +93,7 @@ router.get('/outfits', async (req, res, next) => {
         .populate('ootd')
         .exec()
       outfits = owningUser.outfits.toObject()
+      console.log(outfits)
       const newOutfit = new Outfit({ garments: owningUser.ootd.garments })
       outfits.push({ garments: newOutfit.garments, _id: newOutfit._id })
     } else {
