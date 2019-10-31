@@ -17,10 +17,10 @@ You'll need to supply your own values in `.env` for at least the `API_KEY`, and 
 ### MVP
 * [x] Users can register on home page
 * [x]  Returning users can login from homepage
-* [ ] Users can click add card to get new article form
-  * [ ] User can click button to save articles to closet 
+* [x] Users can click add card to get new article form
+  * [x] User can click button to save articles to closet 
 * [ ] Users can cick wrench to edit article, similar to        add
-* [ ] User can see outfits view
+* [x] User can see outfits view
 * [ ] User can  click outfit add card to create an outfit
   * [ ] User will see select boxes for all roles of clothing
 * [ ] Users can alter saved outfits
