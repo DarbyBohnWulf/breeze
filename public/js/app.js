@@ -60,5 +60,14 @@ const apiInterface = {
     } catch (err) {
       console.log(err)
     }
+  },
+
+  deleteOutfit: async function(outfit) {
+    try {
+      const res = await $.post(`${this.outfitsURL}/${outfit._id}?_method=DELETE`)
+      return res
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

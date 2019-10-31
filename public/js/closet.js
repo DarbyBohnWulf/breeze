@@ -1,9 +1,21 @@
 const closetUiController = {
+    roles: [
+        'top', 'bottom', 'dual', 'head', 'footwear', 'accessory', 'handwear'
+    ],
+
     clothes: [],
+
+    populateGarments: function() {
+        this.roles.forEach((r) => {
+            this.populateCategory(r)
+        })
+    },
 
     populateCategory: function(garmentRole) {
         this.clothes.forEach((g) => {
-            this.addGarmentToRole(garmentRole, g)
+            if(g.role === garmentRole){
+                this.addGarmentToRole(garmentRole, g)
+            }
         })
     },
 
@@ -34,7 +46,7 @@ const closetUiController = {
         const $garmentAttributes = $('<p>').text(`${garment.role} ${garment.layer} ${garment.precip}`)
         $cardBody.append($garmentAttributes)
 
-        const $editButton = $('<a>').addClass('btn btn-primary').text('Edit')
+        const $editButton = $('<a>').addClass('btn btn-primary edit').text('Edit')
         $cardBody.append($editButton)
         const $deleteButton = $('<a>').addClass('btn btn-danger delete').text('Delete')
         $cardBody.append($deleteButton)
@@ -91,35 +103,28 @@ $(document).ready(async () => {
     try {
         const userClothes = await apiInterface.getCloset()
         closetUiController.clothes = userClothes
-        closetUiController.populateCategory('top')
+        closetUiController.populateGarments()
     } catch (err) {
         console.log(err)
     }
 })
 
-$('.scroller').on('click', (e) => {
-    //console.log(e.target.id, e.target.classList)
-})
-
-//click on new garment for a category
-$('.new-garment').on('click', (e) => {
-
-})
-
 //click on save new garment
-$('#top').on('click', (e) => {
+$('.card-deck').on('click', (e) => {
     //check if clicking on save
+    const role = e.currentTarget.id
+
     if (e.target.id === 'save') {
         //gather the name, role, layer and precip
         //it will always be the second to last card
-        //TODO: make sure to read the layer in
-        const role = 'top'
         const $newGarmentCard = $(`#${role} div:nth-last-child(2)`)
         const garmentToPost = closetUiController.getGarmentFromCreateCard($newGarmentCard)
         //make the post request, get the card, and delete the card
         apiInterface.createGarment(garmentToPost).then((garment) => {
             closetUiController.addGarmentToRole(role, garment)
             $newGarmentCard.remove()
+            //Show the hidden new button now that we're done
+            const $test = $(`#${role} .new-garment`).css('display', '')
         }).catch((e) => {
             console.log(e)
         })
@@ -140,10 +145,15 @@ $('#top').on('click', (e) => {
 
     if(e.target.classList.contains('new-garment')){
         const $clickedButton = $(e.target)
-        const garmentRole = $clickedButton.parent().parent().attr('id') //TODO: Make this dynamic
         const $garmentTemplate = closetUiController.getBlankGarmentCard()
-        $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
+        $garmentTemplate.insertBefore(`div#${role} div.new`)
         //TODO: Hide the new button
         $clickedButton.css('display', 'none')
+    }
+
+    //edit a garment
+    if(e.target.classList.contains('edit')) {
+        const id = e.target.parentNode.parentNode.id
+        console.log('editting: ', id)
     }
 })

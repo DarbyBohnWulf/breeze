@@ -5,12 +5,16 @@
     </form>
 
     <!-- multiple categories  go here -->
-    <div id="head" class="scroller">
-    </div>
-    <div id="top" class="scroller card-deck">
+    <% const categories = ['top', 'bottom', 'dual', 'head', 'footwear', 'accessory', 'handwear'] %>
+
+    <% for (let i=0; i<categories.length; i++) { %>
+    <h1><%= categories[i] %>s</h1>
+    <div id="<%= categories[i] %>" class="scroller card-deck">
       <div class="card garment new">
-        <a class="btn btn-success new-garment">New Top</a>
+        <a class="btn btn-success new-garment">New <%= categories[i] %></a>
       </div>
     </div>
+    <% } %>
+
     <script src="/js/closet.js"></script>
 <%- include('../footer.ejs') %>

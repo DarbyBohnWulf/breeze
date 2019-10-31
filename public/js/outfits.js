@@ -12,13 +12,15 @@ const outfitsUiController = {
     })
     $card.append($ul)
 
-    const $deleteButton = $('<a>').addClass('btn btn-danger').text('Delete')
+    const $deleteButton = $('<a>').addClass('btn btn-danger delete').text('Delete')
     $card.append($deleteButton)
     return $card
   },
 
   getBlankOutfitCard: function() {
     const $card = $('<div>').addClass('card').attr('id', 'newOutfit')
+
+    const $name = $('<input>').attr('id', 'newName').attr('placeholder', 'name').appendTo($card)
 
     const $ul = $('<ul>').appendTo($card)
     const $addGarmentLi = $('<li>').appendTo($ul)
@@ -64,14 +66,16 @@ $('#new').on('click', () => {
 
     //post request using apicontroller
     const newOutfit = {
-      name: 'new outfit' + new Date().toLocaleString(),
+      //TODO: make it take name from input
+      name: $('#newName').val() || 'New Outfit Made ' + new Date().toLocaleString(),
       garments: garmentIds,
     }
 
     apiInterface.createOutfit(newOutfit).then((outfit) => {
       console.dir(outfit)
       const $newOutfit = outfitsUiController.getOutfitCard(outfit)
-      $newOutfit.appendTo($('#outfits'))
+      $newOutfit.appendTo('#outfits')
+      $('#newOutfit').remove()
     }).catch(
       //panic
     )
@@ -81,4 +85,16 @@ $('#new').on('click', () => {
   $blankOutfit.find('#finishOutfit').on('click', finishHandler)
 
   $('#new').css('display', 'none')
+})
+
+$('#outfits').on('click', async (e) => {
+  if(e.target.classList.contains('delete')) {
+    try {
+      const outfitId = e.target.parentNode.id
+      const deleted = await apiInterface.deleteOutfit({_id: outfitId})
+      $(`#${outfitId}`).remove()
+    } catch (err) {
+      console.log(err)
+    }
+  }
 })
