@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const connStr = 'mongodb://localhost/breeze'
+const connStr = process.env.MONGODB_URI
 
 mongoose.connect(connStr, {
     useNewUrlParser: true,
