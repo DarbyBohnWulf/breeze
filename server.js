@@ -1,3 +1,5 @@
+// use the .env file!
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const methodOverride = require('method-override')
@@ -5,8 +7,6 @@ const methodOverride = require('method-override')
 const app = express()
 const PORT = process.env.PORT
 
-// use the .env file!
-require('dotenv').config()
 //Connect to MongoDB
 require('./db/db.js')
 
