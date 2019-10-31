@@ -12,7 +12,7 @@ const outfitsUiController = {
     })
     $card.append($ul)
 
-    const $deleteButton = $('<a>').addClass('btn btn-danger').text('Delete')
+    const $deleteButton = $('<a>').addClass('btn btn-danger delete').text('Delete')
     $card.append($deleteButton)
     return $card
   },
@@ -81,4 +81,16 @@ $('#new').on('click', () => {
   $blankOutfit.find('#finishOutfit').on('click', finishHandler)
 
   $('#new').css('display', 'none')
+})
+
+$('#outfits').on('click', async (e) => {
+  if(e.target.classList.contains('delete')) {
+    try {
+      const outfitId = e.target.parentNode.id
+      const deleted = await apiInterface.deleteOutfit({_id: outfitId})
+      $(`#${outfitId}`).remove()
+    } catch (err) {
+      console.log(err)
+    }
+  }
 })
