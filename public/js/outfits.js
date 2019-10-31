@@ -64,6 +64,7 @@ $('#new').on('click', () => {
 
     //post request using apicontroller
     const newOutfit = {
+      //TODO: make it take name from input
       name: 'new outfit' + new Date().toLocaleString(),
       garments: garmentIds,
     }
@@ -71,7 +72,8 @@ $('#new').on('click', () => {
     apiInterface.createOutfit(newOutfit).then((outfit) => {
       console.dir(outfit)
       const $newOutfit = outfitsUiController.getOutfitCard(outfit)
-      $newOutfit.appendTo($('#outfits'))
+      $newOutfit.appendTo('#outfits')
+      $('#newOutfit').remove()
     }).catch(
       //panic
     )
