@@ -149,10 +149,11 @@ router.delete('/outfits/:id', async (req,res, next) => {
     const deletedOutfit = await Outfit.findByIdAndDelete(req.params.id)
     const owningUser = await User.findOne({
       outfits: {
-        $in: [ deletedOutfit._id ]
+        $in: [ req.params.id ]
       }
     })
-    owningUser.outfits.remove(deletedOutfit._id)
+    owningUser.outfits.remove(req.params.id)
+    await owningUser.save()
     res.json(deletedOutfit)
   } catch (err) {
     next(err)
