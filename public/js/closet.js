@@ -36,7 +36,7 @@ const closetUiController = {
 
         const $editButton = $('<a>').addClass('btn btn-primary').text('Edit')
         $cardBody.append($editButton)
-        const $deleteButton = $('<a>').addClass('btn btn-danger').text('Delete')
+        const $deleteButton = $('<a>').addClass('btn btn-danger delete').text('Delete')
         $cardBody.append($deleteButton)
 
         return $card
@@ -125,6 +125,19 @@ $('#top').on('click', (e) => {
         apiInterface.createGarment(garmentToPost).then((garment) => {
             closetUiController.addGarmentToRole(role, garment)
             $newGarmentCard.remove()
+        }).catch((e) => {
+            console.log(e)
+        })
+    }
+
+    if (e.target.classList.contains('delete')) {
+        //get the id of this garment (the card div has id)
+        const $clickedCard = $(e.target).parent().parent()
+        const garmentId = $clickedCard.attr('id')
+        //make an api call to delete
+        //delete the card
+        apiInterface.deleteGarment({_id: garmentId}).then((deletedGarment) => {
+            $clickedCard.remove()
         }).catch((e) => {
             console.log(e)
         })
