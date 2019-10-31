@@ -60,24 +60,21 @@ router.delete('/garments/:id', async (req,res, next) => {
     const deletedGarment = await Garment.findByIdAndDelete(req.params.id)
     const owningUser = await User.findOne({
       closet: {
-        $in: [ deletedGarment._id ]
+        $in: [ req.params.id ]
       }
     })
-    const containingOutfit = await Outfit.findOne({
+    const containingOutfits = await Outfit.updateMany({
       garments: {
-        $in: [ deletedGarment._id ]
+        $in: [ req.params.id ]
+      }
+    },
+    {
+      $pull: {
+        garments: req.params.id
       }
     })
-    owningUser.closet.remove(deletedGarment)
-    if (containingOutfit.garments) {
-      containingOutfit.garments.remove(deletedGarment)
-      await Promise.all([
-        owningUser.save(),
-        containingOutfit.save()
-      ])
-    } else {
-      await owningUser.save()
-    }
+    owningUser.closet.remove(req.params.id)
+    await owningUser.save()
     res.json(deletedGarment)
   } catch (err) {
     next(err)
