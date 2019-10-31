@@ -89,7 +89,7 @@ router.get('/outfits', async (req, res, next) => {
     let outfits = []
     if (req.session.userId) {
       const owningUser = await User.findById(req.session.userId)
-        .populate('outfits')
+        .populate({path: 'outfits', populate: {path: 'garments'}})
         .populate('ootd')
         .exec()
       outfits = owningUser.outfits.toObject()
@@ -115,12 +115,14 @@ router.post('/outfits', async (req, res, next) => {
   try {
     let createdOutfit
     if (req.session.userId) {
+      console.log("req.body\n",req.body)
       const owningUser = await User.findById(req.session.userId)
-      createdOutfit = await Outfit.create(req.body)
+      createdOutfit = await Outfit.create({name: req.body.name, garments: req.body["garments[]"]})
       owningUser.outfits.push(createdOutfit)
       await owningUser.save()
     } else {
-      const garments = await Outfit.find({$in: {_id: req.body.garments}})
+      const garments = await Outfit.find({_id: {$in: req.body.garments}})
+      console.log("garments\n",garments)
       createdOutfit = await Outfit.create(req.body)
     }
     res.status(201).json(createdOutfit)
@@ -148,7 +150,7 @@ router.delete('/outfits/:id', async (req,res, next) => {
         $in: [ deletedOutfit._id ]
       }
     })
-    owningUser.outfits.remove()
+    owningUser.outfits.remove(deletedOutfit._id)
     res.json(deletedOutfit)
   } catch (err) {
     next(err)
