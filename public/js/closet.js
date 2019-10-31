@@ -1,9 +1,21 @@
 const closetUiController = {
+    roles: [
+        'top', 'bottom', 'dual', 'head', 'footwear', 'accessory', 'handwear'
+    ],
+
     clothes: [],
+
+    populateGarments: function() {
+        this.roles.forEach((r) => {
+            this.populateCategory(r)
+        })
+    },
 
     populateCategory: function(garmentRole) {
         this.clothes.forEach((g) => {
-            this.addGarmentToRole(garmentRole, g)
+            if(g.role === garmentRole){
+                this.addGarmentToRole(garmentRole, g)
+            }
         })
     },
 
@@ -91,29 +103,17 @@ $(document).ready(async () => {
     try {
         const userClothes = await apiInterface.getCloset()
         closetUiController.clothes = userClothes
-        closetUiController.populateCategory('top')
+        closetUiController.populateGarments()
     } catch (err) {
         console.log(err)
     }
-})
-
-$('.scroller').on('click', (e) => {
-    //console.log(e.target.id, e.target.classList)
-})
-
-//click on new garment for a category
-$('.new-garment').on('click', (e) => {
-
 })
 
 //click on save new garment
 $('.card-deck').on('click', (e) => {
     //check if clicking on save
     const role = e.currentTarget.id
-    if (role !== 'top') {
-        console.log(e.currentTarget.id, 'clicked')
-        return
-    }
+
     if (e.target.id === 'save') {
         //gather the name, role, layer and precip
         //it will always be the second to last card
