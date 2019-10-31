@@ -107,13 +107,16 @@ $('.new-garment').on('click', (e) => {
 })
 
 //click on save new garment
-$('#top').on('click', (e) => {
+$('.card-deck').on('click', (e) => {
     //check if clicking on save
+    const role = e.currentTarget.id
+    if (role !== 'top') {
+        console.log(e.currentTarget.id, 'clicked')
+        return
+    }
     if (e.target.id === 'save') {
         //gather the name, role, layer and precip
         //it will always be the second to last card
-        //TODO: make sure to read the layer in
-        const role = 'top'
         const $newGarmentCard = $(`#${role} div:nth-last-child(2)`)
         const garmentToPost = closetUiController.getGarmentFromCreateCard($newGarmentCard)
         //make the post request, get the card, and delete the card
@@ -140,9 +143,8 @@ $('#top').on('click', (e) => {
 
     if(e.target.classList.contains('new-garment')){
         const $clickedButton = $(e.target)
-        const garmentRole = $clickedButton.parent().parent().attr('id') //TODO: Make this dynamic
         const $garmentTemplate = closetUiController.getBlankGarmentCard()
-        $garmentTemplate.insertBefore(`div#${garmentRole} div.new`)
+        $garmentTemplate.insertBefore(`div#${role} div.new`)
         //TODO: Hide the new button
         $clickedButton.css('display', 'none')
     }
