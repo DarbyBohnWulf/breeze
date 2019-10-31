@@ -3,10 +3,10 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 
 const app = express()
-const PORT = 3000
 
 // use the .env file!
 require('dotenv').config()
+const PORT = process.env.PORT
 //Connect to MongoDB
 require('./db/db.js')
 
