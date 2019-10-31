@@ -134,6 +134,7 @@ router.post('/outfits', async (req, res, next) => {
       console.log("garments\n",garments)
       createdOutfit = await Outfit.create(req.body)
     }
+    await createdOutfit.populate({path: 'garments'})
     res.status(201).json(createdOutfit)
   } catch (err) {
     next(err)
