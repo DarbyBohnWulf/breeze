@@ -148,12 +148,15 @@ router.post('/outfits', async (req, res, next) => {
       createdOutfit = await Outfit.create({name: req.body.name, garments: req.body["garments[]"]})
       owningUser.outfits.push(createdOutfit)
       await owningUser.save()
+
+      //remove this?
+      createdOutfit = await Outfit.findOne(createdOutfit).populate('garments')
     } else {
       const garments = await Outfit.find({_id: {$in: req.body.garments}})
       console.log("garments\n",garments)
       createdOutfit = await Outfit.create(req.body)
     }
-    await createdOutfit.populate({path: 'garments'})
+    //await createdOutfit.populate({path: 'garments', model: 'Garment'})
     res.status(201).json(createdOutfit)
   } catch (err) {
     next(err)
