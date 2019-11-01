@@ -44,14 +44,14 @@ router.post('/register', async (req, res, next) => {
                 username: username,
                 password: hashedPass,
             })
-            res.send('created securely')
+            res.redirect('/closet')
         }
     } catch (err) {
         next(err)
     }
 })
 
-router.post('/logout', async (req, res, next) => {
+router.get('/logout', async (req, res, next) => {
     try {
         req.session.destroy(() => {
             res.redirect('/users/login')
