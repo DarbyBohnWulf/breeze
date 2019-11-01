@@ -55,7 +55,6 @@ const apiInterface = {
   createOutfit: async function(outfit) {
     try {
       const res = await $.post(this.outfitsURL, outfit)
-      console.log('in api controller', res)
       return res
     } catch (err) {
       console.log(err)
@@ -68,6 +67,15 @@ const apiInterface = {
       return res
     } catch (err) {
       console.log(err)
+    }
+  },
+
+  getGarment: async function(garmentId) {
+    try {
+      const garment = await $.get(`${this.URL}/${garmentId}`)
+      return garment
+    } catch (err) {
+      console.error(err)
     }
   }
 }
