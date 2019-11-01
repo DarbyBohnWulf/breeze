@@ -100,11 +100,28 @@ router.get('/outfits', async (req, res, next) => {
     let outfits = []
     if (req.session.userId) {
       const owningUser = await User.findById(req.session.userId)
+        .populate('closet')
         .populate({path: 'outfits', populate: {path: 'garments'}})
         .populate('ootd')
         .exec()
       outfits = owningUser.outfits.toObject()
-      const newOutfit = new Outfit({ garments: owningUser.ootd.garments })
+      if (owningUser.ootd.length === 0) {
+        const weather = await request
+          .get(`:${process.env.PORT}/api/weather`)
+          .catch(console.error)
+        console.log('garments\n',owningUser.closet)
+        console.log('ootd before\n', owningUser.ootd)
+        const sortedGarments = await getSortedGarments(owningUser.closet)
+        const parsedWeather = breeze.parseWeatherData(weather.body)
+        const recommendation = await breeze.buildOutfit(sortedGarments, parsedWeather)
+        console.log('recco\n', recommendation)
+        recommendation.forEach(async r => {
+          owningUser.ootd.push(r)
+          await owningUser.save()
+        });
+        console.log('ootd before\n', owningUser.ootd)
+      }
+      const newOutfit = new Outfit({ garments: owningUser.ootd })
       outfits.push({ garments: newOutfit.garments, _id: newOutfit._id })
     } else {
       const dummyGs = await getDummyGarments()
@@ -115,7 +132,7 @@ router.get('/outfits', async (req, res, next) => {
         outfit1, outfit2
       ]
     }
-    res.json(outfits)
+    res.json(outfits.reverse())
   } catch (err) {
     next(err)
   }
