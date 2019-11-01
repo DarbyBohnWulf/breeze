@@ -97,6 +97,24 @@ const closetUiController = {
         const role = $garmentCard.parent().attr('id')
         return {name, layer, precip, role}
     },
+
+    getGarmentFromDisplayCard: function($garmentCard) {
+        const id = $garmentCard.attr('id')
+        const name = $garmentCard.find('h5').text()
+        //properties is a <p> tag of form 'role layer precip'
+        const properties = $garmentCard.find('p').text().split(' ')
+        return{
+            _id: id,
+            name: name,
+            role: properties[0],
+            layer: properties[1],
+            precip: properties[2],
+        }
+    },
+
+    prefillBlankAndId: function($blankCard, garment) {
+        $blankCard.find('input').val(garment.name)
+    },
 }
 
 $(document).ready(async () => {
@@ -153,7 +171,25 @@ $('.card-deck').on('click', (e) => {
 
     //edit a garment
     if(e.target.classList.contains('edit')) {
-        const id = e.target.parentNode.parentNode.id
-        console.log('editting: ', id)
+        const $currentCard = $(e.target.parentNode.parentNode)
+        const garment = closetUiController.getGarmentFromDisplayCard($currentCard)
+        
+        const $editCard = closetUiController.getBlankGarmentCard()
+        closetUiController.prefillBlankAndId($editCard, garment)
+        $editCard.attr('id', garment._id)
+        $editCard.find('#save').attr('id', 'update')
+        //TODO: update edit card to preselect options
+        $(`#${garment._id}`).replaceWith($editCard)
+    }
+
+    if(e.target.id === 'update') {
+        const $currentCard = $(e.target.parentNode.parentNode)
+        garment = closetUiController.getGarmentFromCreateCard($currentCard)
+        garment._id = $currentCard.attr('id')
+        apiInterface.updateGarment(garment).then((updatedGarment) => {
+            $updatedCard = closetUiController.getGarmentCard(updatedGarment)
+            console.log(updatedGarment)
+            $currentCard.replaceWith($updatedCard)
+        }).catch(console.log)
     }
 })
