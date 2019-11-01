@@ -114,6 +114,10 @@ const closetUiController = {
 
     prefillBlankAndId: function($blankCard, garment) {
         $blankCard.find('input').val(garment.name)
+        $blankCard.ready(() => {
+          $blankCard.find(`select#layer`).val(garment.layer)
+          $blankCard.find(`select#precip`).val(garment.precip)
+        })
     },
 }
 
