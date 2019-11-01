@@ -24,7 +24,6 @@ router.get('/garments', async (req,res, next) => {
     } else {
       garments = await getDummyGarments()
     }
-    console.log(garments)
     res.json(garments)
   } catch (err) {
     next(err)
@@ -47,7 +46,11 @@ router.post('/garments', async (req,res, next) => {
 // garment update
 router.put('/garments/:id', async (req,res, next) => {
   try {
-    const editedGarment = await Garment.findByIdAndUpdate(req.params.id, req.body)
+    const editedGarment = await Garment.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+      )
     res.status(201).json(editedGarment)
   } catch (err) {
     next(err)
@@ -101,7 +104,6 @@ router.get('/outfits', async (req, res, next) => {
         .populate('ootd')
         .exec()
       outfits = owningUser.outfits.toObject()
-      console.log(outfits)
       const newOutfit = new Outfit({ garments: owningUser.ootd.garments })
       outfits.push({ garments: newOutfit.garments, _id: newOutfit._id })
     } else {
@@ -144,7 +146,11 @@ router.post('/outfits', async (req, res, next) => {
 // outfit update
 router.put('/outfits/:id', async (req,res, next) => {
   try {
-    const updatedOutfit = await Outfit.findByIdAndUpdate(req.params.id, req.body)
+    const updatedOutfit = await Outfit.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+      )
     res.status(201).json(updatedOutfit)
   } catch (err) {
     next(err)
